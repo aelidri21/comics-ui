@@ -66,12 +66,52 @@ export default function SearchPage() {
         <ul style={{ listStyle: 'none', padding: 0, marginTop: 12 }}>
           {results.map((c) => (
             <li key={c.id} style={{ padding: '10px 0', borderBottom: '1px solid #eee' }}>
-              <div style={{ fontWeight: 700 }}>{c.title}</div>
-              <div style={{ fontSize: 14, opacity: 0.8 }}>
-                {c.authors?.length ? c.authors.join(', ') : 'N/A'} {c.publishedDate ? `• ${c.publishedDate}` : ''}
+              <div style={{ display: 'flex', gap: 12 }}>
+                {/* Vignette */}
+                <div
+                  style={{
+                    width: 80,
+                    height: 120,
+                    background: '#f3f3f3',
+                    borderRadius: 6,
+                    overflow: 'hidden',
+                    flex: '0 0 auto'
+                  }}
+                >
+                  {c.coverUrl ? (
+                    <img
+                      src={c.coverUrl}
+                      alt={c.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        fontSize: 12,
+                        color: '#888',
+                        display: 'grid',
+                        placeItems: 'center'
+                      }}
+                    >
+                      No cover
+                    </div>
+                  )}
+                </div>
+
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 700 }}>{c.title}</div>
+                  <div style={{ fontSize: 14, opacity: 0.8, marginTop: 2 }}>
+                    {c.authors?.length ? c.authors.join(', ') : 'N/A'}
+                    {c.publishedDate ? ` • ${c.publishedDate}` : ''}
+                  </div>
+                  {c.publisher && <div style={{ fontSize: 13, opacity: 0.7, marginTop: 2 }}>{c.publisher}</div>}
+                </div>
               </div>
-              {c.publisher && <div style={{ fontSize: 13, opacity: 0.7 }}>{c.publisher}</div>}
             </li>
+
           ))}
         </ul>
       )}

@@ -1,13 +1,15 @@
 import type { Comic } from '../types'
 
 export async function searchComics(query: string): Promise<Comic[]> {
-    if (!query.trim()) return []
-    await new Promise (r => setTimeout(r, 400))
+   if (!query.trim()) return []
 
-    const q = query.trim()
-    return[
-        {id: '1', title: `${q} #1`, authors: ['Author A'], publisher: 'Test', publishedDate: '2010'},
-        {id: '2', title: `${q} Returns`, authors: ['Author B', 'Author C'], publisher: 'Demo', publishedDate: '2015'},
-        {id: '3', title: `${q} #1`, authors: ['Author A'], publisher: 'Test', publishedDate: '2010'}
-    ]
+   const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`)
+
+   if (!res.ok) {
+       const msg = await res.text()
+       throw new Error(`Backend error: ${res.status} ${msg}`)
+   }
+
+   const data = await res.json()
+   return data as Comic[]
 }

@@ -5,5 +5,6 @@ export interface Comic {
     publisher?: string | null
     publishedDate?: string | null
     description?: string | null
+    coverUrl?: string
   }
   
